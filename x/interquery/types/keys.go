@@ -1,5 +1,9 @@
 package types
 
+import (
+	icqtypes "github.com/cosmos/ibc-go/v3/modules/apps/icq/types"
+)
+
 const (
 	// ModuleName defines the module name
 	ModuleName = "interquery"
@@ -17,7 +21,7 @@ const (
 	MemStoreKey = "mem_interquery"
 
 	// Version defines the current version the IBC module supports
-	Version = "interquery-1"
+	Version = icqtypes.Version
 
 	// PortID is the default port id that module binds to
 	PortID = "interquery"

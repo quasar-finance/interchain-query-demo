@@ -4,6 +4,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
+	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
 	ibcexported "github.com/cosmos/ibc-go/v3/modules/core/exported"
 )
 
@@ -22,6 +23,11 @@ type BankKeeper interface {
 // ICS4Wrapper defines the expected ICS4Wrapper for middleware
 type ICS4Wrapper interface {
 	SendPacket(ctx sdk.Context, channelCap *capabilitytypes.Capability, packet ibcexported.PacketI) error
+}
+
+type ChannelKeeper interface {
+	GetChannel(ctx sdk.Context, portID, channelID string) (channeltypes.Channel, bool)
+	GetNextSequenceSend(ctx sdk.Context, portID, channelID string) (uint64, bool)
 }
 
 // PortKeeper defines the expected IBC port keeper

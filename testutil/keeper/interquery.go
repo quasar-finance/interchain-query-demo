@@ -62,6 +62,7 @@ func InterqueryKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 		memStoreKey,
 		paramsSubspace,
 		IBCKeeper.ChannelKeeper,
+		IBCKeeper.ChannelKeeper,
 		&IBCKeeper.PortKeeper,
 		capabilityKeeper.ScopeToModule("InterqueryScopedKeeper"),
 	)

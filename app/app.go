@@ -381,6 +381,7 @@ func New(
 		keys[interquerymoduletypes.MemStoreKey],
 		app.GetSubspace(interquerymoduletypes.ModuleName),
 		app.IBCKeeper.ChannelKeeper,
+		app.IBCKeeper.ChannelKeeper,
 		&app.IBCKeeper.PortKeeper,
 		scopedInterqueryKeeper,
 	)
