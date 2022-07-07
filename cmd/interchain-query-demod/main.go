@@ -4,8 +4,8 @@ import (
 	"os"
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
-	"github.com/ignite-hq/cli/ignite/pkg/cosmoscmd"
 	"github.com/quasar-finance/interchain-query-demo/app"
+	"github.com/tendermint/starport/starport/pkg/cosmoscmd"
 )
 
 func main() {

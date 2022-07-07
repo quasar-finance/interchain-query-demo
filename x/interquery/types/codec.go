@@ -5,8 +5,6 @@ import (
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/golang/protobuf/proto"
 )
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
@@ -19,12 +17,6 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgSendQueryAllBalances{},
 	)
 	// this line is used by starport scaffolding # 3
-
-	// Just for using in proto.Print
-	registry.RegisterImplementations((*proto.Message)(nil),
-		&banktypes.QueryAllBalancesRequest{},
-		&banktypes.QueryAllBalancesResponse{},
-	)
 
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
 }
