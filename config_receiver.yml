@@ -1,0 +1,23 @@
+accounts:
+  - name: bob
+    coins: ["200000000stake"]
+  - name: relayer
+    addresses: "<relayer-address>"
+    coins: ["200000000stake"]
+
+validator:
+  name: bob
+  staked: "100000000stake"
+
+init:
+  home: "~/.icq-2"
+
+genesis:
+  chain-id: "icq-2"
+  
+host:
+  rpc: "36657"
+  p2p: "36658"
+  prof: "7060"
+  grpc: "10091"
+  api: "2337"
