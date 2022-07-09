@@ -5,6 +5,8 @@ import (
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	"github.com/gogo/protobuf/proto"
 )
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
@@ -18,6 +20,11 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	// this line is used by starport scaffolding # 3
 
+	// For printing purposes
+	registry.RegisterImplementations((*proto.Message)(nil),
+		&banktypes.QueryAllBalancesRequest{},
+		&banktypes.QueryAllBalancesResponse{},
+	)
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
 }
 
