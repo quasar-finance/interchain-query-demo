@@ -1,6 +1,0 @@
-=============== Jul 8, 2022 (PKT) ===============
-19:04:46.497735 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
-19:04:46.533688 db@open opening
-19:04:46.534036 version@stat F·[] S·0B[] Sc·[]
-19:04:46.552820 db@janitor F·2 G·0
-19:04:46.552854 db@open done T·19.1275ms
