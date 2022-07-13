@@ -68,3 +68,33 @@ interchain-query-demod tx interquery send-query-all-balances channel-0 cosmos1ez
 ```bash
 interchain-query-demod query interquery query-state 1 --chain-id=sender --node=tcp://localhost:26659
 ```                                         
+
+Output:
+
+```
+    request:
+    '@type': /cosmos.bank.v1beta1.QueryAllBalancesRequest
+    address: cosmos1ez43ye5qn3q2zwh8uvswppvducwnkq6w6mthgl
+    pagination:
+        count_total: false
+        key: null
+        limit: "100"
+        offset: "0"
+        reverse: false
+    response:
+    '@type': /cosmos.bank.v1beta1.QueryAllBalancesResponse
+    balances:
+    - amount: "8000000"
+        denom: atom
+    - amount: "800000000"
+        denom: stake
+    pagination:
+        next_key: null
+        total: "0"
+```
+
+Relayer Output:
+
+```
+Relay 1 acks from receiver => sender
+```
