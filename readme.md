@@ -1,52 +1,65 @@
 # interchainquerydemo
-**interchainquerydemo** is a blockchain built using Cosmos SDK and Tendermint and created with [Starport](https://starport.com).
+**ICQ Demo** 
 
-## Get started
+## Disclaimer
 
-```
-starport chain serve
-```
+The following repository and [`x/interquery`](./x/interquery/) module serves as an example and is used to exercise the functionality of Interchain Accounts end-to-end for development purposes only.
+This module **SHOULD NOT** be used in production systems
 
-`serve` command installs dependencies, builds, initializes, and starts your blockchain in development.
+## Overview 
 
-### Configure
+The following repository contains a basic example of an Interchain Queries module and serves as a developer guide for teams that wish to use interchain queries functionality.
 
-Your blockchain in development can be configured with `config.yml`. To learn more, see the [Starport docs](https://docs.starport.com).
+### Developer Documentation
 
-### Web Frontend
+Interchain Queries developer docs can be found here
 
-Starport has scaffolded a Vue.js-based web app in the `vue` directory. Run the following commands to install dependencies and start the app:
+https://github.com/strangelove-ventures/ibc-go/blob/feature/icq_implementation/modules/apps/icq/README.md
 
-```
-cd vue
-npm install
-npm run serve
-```
+## Demo
 
-The frontend app is built using the `@starport/vue` and `@starport/vuex` packages. For details, see the [monorepo for Starport front-end development](https://github.com/tendermint/vue).
+### Start the two instances of demo chain with following commands
 
-## Release
-To release a new version of your blockchain, create and push a new tag with `v` prefix. A new draft release with the configured targets will be created.
-
-```
-git tag v0.1
-git push origin v0.1
+```bash 
+ignite chain serve -c sender.yml --reset-once
 ```
 
-After a draft release is created, make your final changes from the release page and publish it.
-
-### Install
-To install the latest version of your blockchain node's binary, execute the following command on your machine:
-
+```bash 
+ignite chain serve -c receiver.yml --reset-once
 ```
-curl https://get.starport.com/quasar-finance/interchain-query-demo@latest! | sudo bash
+
+### Configure and start the relayer
+
+```bash
+ignite relayer configure -a \
+--source-rpc "http://localhost:26659" \
+--source-faucet "http://localhost:4500" \
+--source-port "interquery" \
+--source-gasprice "0.0stake" \
+--source-gaslimit 5000000 \
+--source-prefix "cosmos" \
+--source-version "icq-1" \
+--target-rpc "http://localhost:26559" \
+--target-faucet "http://localhost:4501" \
+--target-port "icqhost" \
+--target-gasprice "0.0stake" \
+--target-gaslimit 300000 \
+--target-prefix "cosmos"  \
+--target-version "icq-1"
 ```
-`quasar-finance/interchain-query-demo` should match the `username` and `repo_name` of the Github repository to which the source code was pushed. Learn more about [the install process](https://github.com/allinbits/starport-installer).
 
-## Learn more
+```bash
+ignite relayer connect
+```
 
-- [Starport](https://starport.com)
-- [Tutorials](https://docs.starport.com/guide)
-- [Starport docs](https://docs.starport.com)
-- [Cosmos SDK docs](https://docs.cosmos.network)
-- [Developer Chat](https://discord.gg/H6wGTY8sxw)
+### Send the query to "receiver" chain
+
+```bash
+interchain-query-demod tx interquery send-query-all-balances channel-0 cosmos1ez43ye5qn3q2zwh8uvswppvducwnkq6w6mthgl --chain-id=sender --node=tcp://localhost:26659 --home ~/.sender --from alice
+```
+
+### See the result of packet 1
+
+```bash
+interchain-query-demod query interquery query-state 1 --chain-id=sender --node=tcp://localhost:26659
+```                                         
