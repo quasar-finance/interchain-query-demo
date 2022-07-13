@@ -31,6 +31,11 @@ ignite chain serve -c receiver.yml --reset-once
 ### Configure and start the relayer
 
 ```bash
+rm -rf ~/.ignite/relayer
+```
+
+
+```bash
 ignite relayer configure -a \
 --source-rpc "http://localhost:26659" \
 --source-faucet "http://localhost:4500" \
