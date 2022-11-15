@@ -5,7 +5,7 @@ ignite chain serve -c sender.yml --reset-once
 ```
 
 ```bash 
-`ignite chain serve -c receiver.yml --reset-once`
+ignite chain serve -c receiver.yml --reset-once
 ```
 
 ### Configure and start the relayer

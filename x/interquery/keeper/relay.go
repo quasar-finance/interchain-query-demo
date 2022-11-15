@@ -30,8 +30,12 @@ func (k Keeper) SendQuery(
 	destinationPort := sourceChannelEnd.GetCounterparty().GetPortID()
 	destinationChannel := sourceChannelEnd.GetCounterparty().GetChannelID()
 
+	data, err := icqtypes.SerializeCosmosQuery(reqs)
+	if err != nil {
+		return 0, sdkerrors.Wrap(err, "could not serialize reqs into cosmos query")
+	}
 	icqPacketData := icqtypes.InterchainQueryPacketData{
-		Requests: reqs,
+		Data: data,
 	}
 
 	return k.createOutgoingPacket(ctx, sourcePort, sourceChannel, destinationPort, destinationChannel, chanCap, icqPacketData, timeoutTimestamp)
@@ -86,13 +90,17 @@ func (k Keeper) OnAcknowledgementPacket(
 		if err := icqtypes.ModuleCdc.UnmarshalJSON(resp.Result, &ackData); err != nil {
 			return sdkerrors.Wrap(err, "failed to unmarshal interchain query packet ack")
 		}
+		resps, err := icqtypes.DeserializeCosmosResponse(ackData.Data)
+		if err != nil {
+			return sdkerrors.Wrap(err, "could not deserialize data to cosmos response")
+		}
 
-		if len(ackData.Responses) < 1 {
+		if len(resps) < 1 {
 			return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "no responses in interchain query packet ack")
 		}
 
 		var r banktypes.QueryAllBalancesResponse
-		if err := k.cdc.Unmarshal(ackData.Responses[0].Value, &r); err != nil {
+		if err := k.cdc.Unmarshal(resps[0].Value, &r); err != nil {
 			return sdkerrors.Wrapf(err, "failed to unmarshal interchain query response to type %T", resp)
 		}
 
