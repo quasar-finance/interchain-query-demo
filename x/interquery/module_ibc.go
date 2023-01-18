@@ -6,12 +6,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
-	icqtypes "github.com/cosmos/ibc-go/v3/modules/apps/icq/types"
-	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
-	porttypes "github.com/cosmos/ibc-go/v3/modules/core/05-port/types"
-	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
-	ibcexported "github.com/cosmos/ibc-go/v3/modules/core/exported"
+	channeltypes "github.com/cosmos/ibc-go/v4/modules/core/04-channel/types"
+	porttypes "github.com/cosmos/ibc-go/v4/modules/core/05-port/types"
+	host "github.com/cosmos/ibc-go/v4/modules/core/24-host"
+	ibcexported "github.com/cosmos/ibc-go/v4/modules/core/exported"
 	"github.com/quasar-finance/interchain-query-demo/x/interquery/types"
+	icqtypes "github.com/strangelove-ventures/async-icq/types"
 )
 
 // OnChanOpenInit implements the IBCModule interface
@@ -24,24 +24,24 @@ func (am AppModule) OnChanOpenInit(
 	chanCap *capabilitytypes.Capability,
 	counterparty channeltypes.Counterparty,
 	version string,
-) error {
+) (string, error) {
 
 	// Require portID is the portID module is bound to
 	boundPort := am.keeper.GetPort(ctx)
 	if boundPort != portID {
-		return sdkerrors.Wrapf(porttypes.ErrInvalidPort, "invalid port: %s, expected %s", portID, boundPort)
+		return "", sdkerrors.Wrapf(porttypes.ErrInvalidPort, "invalid port: %s, expected %s", portID, boundPort)
 	}
 
 	if version != types.Version {
-		return sdkerrors.Wrapf(types.ErrInvalidVersion, "got %s, expected %s", version, types.Version)
+		return "", sdkerrors.Wrapf(types.ErrInvalidVersion, "got %s, expected %s", version, types.Version)
 	}
 
 	// Claim channel capability passed back by IBC module
 	if err := am.keeper.ClaimCapability(ctx, chanCap, host.ChannelCapabilityPath(portID, channelID)); err != nil {
-		return err
+		return "", err
 	}
 
-	return nil
+	return "", nil
 }
 
 // OnChanOpenTry implements the IBCModule interface
@@ -128,7 +128,8 @@ func (am AppModule) OnRecvPacket(
 	modulePacket channeltypes.Packet,
 	relayer sdk.AccAddress,
 ) ibcexported.Acknowledgement {
-	return icqtypes.NewErrorAcknowledgement(sdkerrors.Wrapf(icqtypes.ErrInvalidChannelFlow, "inter-query module can not receive packets"))
+	return channeltypes.NewErrorAcknowledgement(sdkerrors.Wrapf(icqtypes.ErrInvalidChannelFlow, "inter-query module can not receive packets"))
+	// icqtypes.NewErrorAcknowledgement(sdkerrors.Wrapf(icqtypes.ErrInvalidChannelFlow, "inter-query module can not receive packets"))
 }
 
 // OnAcknowledgementPacket implements the IBCModule interface

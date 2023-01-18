@@ -7,9 +7,9 @@ import (
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
 	"github.com/quasar-finance/interchain-query-demo/x/interquery/types"
 
-	icqtypes "github.com/cosmos/ibc-go/v3/modules/apps/icq/types"
-	clienttypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
+	icqtypes "github.com/strangelove-ventures/async-icq/types"
+	clienttypes "github.com/cosmos/ibc-go/v4/modules/core/02-client/types"
+	channeltypes "github.com/cosmos/ibc-go/v4/modules/core/04-channel/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 )
 
