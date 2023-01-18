@@ -13,8 +13,10 @@ The following repository contains a basic example of an Interchain Queries modul
 ### Developer Documentation
 
 Interchain Queries developer docs can be found here
+https://github.com/strangelove-ventures/async-icq/blob/main/README.md
 
-https://github.com/strangelove-ventures/ibc-go/blob/feature/icq_implementation/modules/apps/icq/README.md
+Medium blog - 
+https://link.medium.com/a70uOK1cFwb
 
 ## Demo
 
